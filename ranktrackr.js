@@ -67,6 +67,24 @@ const ranktrackr_get_groups = () => {
   });
 };
 
+const ranktrackr_get_group_id_by_name = ({group_name}) => {
+  return new Promise((resolve, reject) => {
+    ranktrackr_get_groups()
+      .then(groups => {
+        let group_found = false;
+        groups.forEach(group => {
+          if (group_found === false && group.name === group_name) {
+            resolve(group.id);
+            group_found = true;
+          }
+        });
+        if (group_found === false) {
+          reject(`#d11ds group not found. Name: ${group_name}`);
+        }
+      });
+  });
+};
+
 const ranktrackr_add_group = ({name}) => {
 
   return new Promise((resolve, reject) => {
@@ -96,7 +114,6 @@ const ranktrackr_add_group = ({name}) => {
       });
   });
 };
-
 
 const ranktrackr_delete_group = ({group_id}) => {
   return new Promise((resolve, reject) => {
@@ -211,25 +228,25 @@ const ranktrackr_get_keywords = ({url_id}) => {
               // keywords[keyword] e.g. =
               //
               // {
-              //   id: int,
+              //   id: 1234,
               //   last_processed_at: '2016-07-04T13:20:48.748+02:00',
               //   query: 'some query',
               //   created_at: '2016-03-04T20:34:46.936+01:00',
               //   position: 10,
-              //   search_keyword_url_id: 36313,
+              //   search_keyword_url_id: 1234,
               //   mobile: false,
               //   competitor_results: {},
               //   local_search: null,
               //   google_hl: 'en',
-              //   google_gl: 'lt',
+              //   google_gl: 'ca',
               //   last_day_change: -1,
               //   last_week_change: 1,
               //   last_month_change: -2,
-              //   uri: '/some-uri-of-inner-page/',
-              //   result_url: 'https://example.com/some-uri-of-inner-page/',
+              //   uri: '/sample/',
+              //   result_url: 'https://example.com/sample/',
               //   last_position_change: [-1, '2016-07-04T13:20:47.232+02:00', true],
-              //   mini_graph: '/keyword_graphs/12345.png?u=12345678',
-              //   mini_graph_cache: '/system/keyword_evolution/123/1234/12345678.png?u=1234567890',
+              //   mini_graph: '/keyword_graphs/12345.png?u=123456',
+              //   mini_graph_cache: '/system/keyword_evolution/1234/134/123456.png?u=1234567',
               //   results_count: 914000,
               //   errors: {},
               //   owner_name: 'brenda',
@@ -245,7 +262,7 @@ const ranktrackr_get_keywords = ({url_id}) => {
               //   position_info: {},
               //   tags: [],
               //   engine: 'google',
-              //   url: 'http://lendingarch.ca',
+              //   url: 'http://example.com',
               //   previous_position: 9,
               //   best_position: 5,
               //   position_changed_during_last_day: -1,
@@ -357,4 +374,5 @@ export {
   ranktrackr_add_keywords,
   ranktrackr_move_url_to_group,
   ranktrackr_get_urls_with_keywords,
+  ranktrackr_get_group_id_by_name,
 };
